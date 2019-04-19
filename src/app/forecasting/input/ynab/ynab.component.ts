@@ -23,7 +23,8 @@ export class YnabComponent implements OnInit {
   budgetForm: FormGroup;
   displayContributionInfo = true;
   public safeWithdrawalRatePercentage = 4.00;
-  public expectedAnnualGrowthRate = 7.00;
+  public expectedAnnualGrowthRate = 8.00;
+  public marktest: number;
 
   public budgets: ynab.BudgetSummary[];
   public budget: ynab.BudgetDetail;
@@ -76,6 +77,7 @@ export class YnabComponent implements OnInit {
   private leanFiIgnoredCategoryGroups = [
     'just for fun',
     'quality of life goals',
+    'temporary lifestyle',
     ...this.ignoredCategoryGroups
   ];
 
@@ -407,6 +409,13 @@ export class YnabComponent implements OnInit {
         case 'contribution':
           override.contributionBudget = c.value;
           break;
+        
+        // Adds a new override that will multiple the original amount by the modifier within the notes section.
+        case '*':
+          override.computedLeanFiBudget =  originalValue * c.value;
+        
+        break;
+        
         case 'l':
         case 'lfi':
         case 'lean':
